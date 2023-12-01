@@ -53,27 +53,33 @@ func Day1() {
 
 var (
 	nonNumericRegex = regexp.MustCompile(`[^1-9]+`)
-	numWords        = map[int]string{
-		1: "one",
-		2: "two",
-		3: "three",
-		4: "four",
-		5: "five",
-		6: "six",
-		7: "seven",
-		8: "eight",
-		9: "nine",
-	}
+	numWords        = map[string]string{
+		"one":   "o1e",
+		"two":   "t2o",
+		"three": "t3e",
+		"four":  "f4r",
+		"five":  "f5e",
+		"six":   "s6x",
+		"seven": "s7n",
+		"eight": "e8t",
+		"nine":  "n9e",
+	} // mutation map for word form digits
 )
 
 func filter(str string) (int, error) {
 	newStr := str
 
-	// TODO: word collisions ie: eightwo
+	// TODO: word collisions ie: eightwo twone oneight
 	// maybe hard code each iteration?
 
-	for i := 0; i < len(numWords); i++ {
-		newStr = strings.ReplaceAll(newStr, numWords[i+1], strconv.Itoa(i+1))
+	// newStr = strings.ReplaceAll(newStr, "eightwo", "82")
+	// newStr = strings.ReplaceAll(newStr, "oneight", "18")
+	// newStr = strings.ReplaceAll(newStr, "twone", "21")
+	// newStr = strings.ReplaceAll(newStr, "eighthree", "83")
+	// newStr = strings.ReplaceAll(newStr, "sevenine", "79")
+
+	for num, word := range numWords {
+		newStr = strings.ReplaceAll(newStr, num, word)
 	}
 
 	newStr = nonNumericRegex.ReplaceAllString(newStr, "")
