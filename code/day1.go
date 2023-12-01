@@ -25,7 +25,7 @@ func Day1() {
 	sum := 0
 
 	for i := 0; i < 1000; i++ {
-		line, err := reader.ReadString('\n')
+		line, err := reader.ReadString('\n') // read line from txt file
 
 		if err == io.EOF {
 			break
@@ -66,17 +66,13 @@ var (
 	} // mutation map for word form digits
 )
 
+// filter reduces the given string
 func filter(str string) (int, error) {
 	newStr := str
 
-	// TODO: word collisions ie: eightwo twone oneight
+	// word collisions ie: eightwo twone oneight
 	// maybe hard code each iteration?
-
 	// newStr = strings.ReplaceAll(newStr, "eightwo", "82")
-	// newStr = strings.ReplaceAll(newStr, "oneight", "18")
-	// newStr = strings.ReplaceAll(newStr, "twone", "21")
-	// newStr = strings.ReplaceAll(newStr, "eighthree", "83")
-	// newStr = strings.ReplaceAll(newStr, "sevenine", "79")
 
 	for num, word := range numWords {
 		newStr = strings.ReplaceAll(newStr, num, word)
@@ -86,8 +82,8 @@ func filter(str string) (int, error) {
 
 	fmt.Printf("line after replace: %s\n", newStr)
 
-	first := newStr[0:1]
-	last := newStr[len(newStr)-1:]
+	first := newStr[0:1]           // grab first digit
+	last := newStr[len(newStr)-1:] // grab last digit
 
 	combined := first + last
 
