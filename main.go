@@ -18,6 +18,7 @@ func main() {
 	dayFunctions := map[int]DayFunction{
 		1: code.Day1,
 		2: code.Day2,
+		3: code.Day3,
 	}
 
 	dayFuncs, err := countFiles("code")
@@ -66,7 +67,9 @@ func countFiles(dir string) (int, error) {
 
 	count := 0
 	for _, file := range files {
-		if filepath.Ext(file.Name()) == ".go" {
+		testTest := strings.Split(filepath.Base(file.Name()), "_")
+
+		if filepath.Ext(file.Name()) == ".go" && len(testTest) == 1 {
 			count++
 		}
 	}
