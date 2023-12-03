@@ -17,6 +17,7 @@ func main() {
 	// daysFunctions must be manually set
 	dayFunctions := map[int]DayFunction{
 		1: code.Day1,
+		2: code.Day2,
 	}
 
 	dayFuncs, err := countFiles("code")
