@@ -28,6 +28,7 @@ func Day2() {
 	reader := bufio.NewReader(file)
 
 	sum := 0
+	gamePower := 0
 
 	for {
 		line, err := reader.ReadString('\n') // read line from txt file
@@ -43,14 +44,15 @@ func Day2() {
 
 		round, values := parse(line)
 
-		validVal := validateValues(values, validData)
+		validVal, power := validateValues(values, validData)
+		fmt.Println("added power: ", power)
+		gamePower = gamePower + power
 
 		if !validVal {
 			fmt.Println("skipped round ", round)
 			continue
 		}
 
-		fmt.Println("added round ", round)
 		sum = sum + round
 
 		fmt.Println()
@@ -58,6 +60,7 @@ func Day2() {
 	}
 
 	fmt.Printf("The final un-impossible game sum-counterino is: %d\n", sum)
+	fmt.Printf("It's power lever is exactly %d thousand!\n", gamePower)
 }
 
 func parse(str string) (int, []MAP) {
@@ -67,8 +70,6 @@ func parse(str string) (int, []MAP) {
 
 	round := roundsHandler(parts[1])
 	rounds := buildRounds(round)
-
-	fmt.Println("rounds: ", rounds)
 
 	return game, rounds
 }
@@ -120,7 +121,14 @@ func buildHands(hands []string) MAP {
 	return result
 }
 
-func validateValues(vals []MAP, validData MAP) bool {
+func validateValues(vals []MAP, validData MAP) (bool, int) {
+	power := 1
+	valideGame := true
+	minimums := MAP{
+		"red":   0,
+		"green": 0,
+		"blue":  0,
+	}
 	for _, hands := range vals {
 		for color, count := range hands {
 
@@ -128,12 +136,17 @@ func validateValues(vals []MAP, validData MAP) bool {
 
 			if count > validData[color] {
 				fmt.Printf("failed ==== color: '%s' count: '%d'\n", color, count)
-				return false
+				valideGame = false
+			}
+			if count > minimums[color] {
+				minimums[color] = count
 			}
 		}
 	}
 
-	return true
+	power = minimums["red"] * minimums["green"] * minimums["blue"]
+
+	return valideGame, power
 }
 
 func sliceMaker(str string, seperator string) []string {
