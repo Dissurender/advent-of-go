@@ -1,21 +1,9 @@
-package code
+package utils
 
 import (
 	"reflect"
 	"testing"
-
-	"github.com/stretchr/testify/require"
 )
-
-func TestSliceMakerrrr(t *testing.T) {
-	str := "test string"
-	seperator := " "
-	expect := []string{"test", "string"}
-
-	result := sliceMaker(str, seperator)
-	require.NotEmpty(t, result)
-	require.Equal(t, result, expect)
-}
 
 func Test_sliceMaker(t *testing.T) {
 	type args struct {
@@ -40,7 +28,7 @@ func Test_sliceMaker(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := sliceMaker(tt.args.str, tt.args.seperator); !reflect.DeepEqual(got, tt.want) {
+			if got := SliceMaker(tt.args.str, tt.args.seperator); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("sliceMaker() = %v, want %v", got, tt.want)
 			}
 		})

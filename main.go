@@ -19,6 +19,7 @@ func main() {
 		1: code.Day1,
 		2: code.Day2,
 		3: code.Day3,
+		4: code.Day4,
 	}
 
 	dayFuncs, err := countFiles("code")

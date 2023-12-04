@@ -7,6 +7,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/Dissurender/advent-of-code/utils"
 )
 
 type MAP = map[string]int
@@ -64,9 +66,9 @@ func Day2() {
 }
 
 func parse(str string) (int, []MAP) {
-	parts := sliceMaker(str, ":")
+	parts := utils.SliceMaker(str, ":")
 
-	game := gameRound(parts[0])
+	game := gameNumber(parts[0])
 
 	round := roundsHandler(parts[1])
 	rounds := buildRounds(round)
@@ -74,19 +76,20 @@ func parse(str string) (int, []MAP) {
 	return game, rounds
 }
 
-func gameRound(round string) int {
-	sep := sliceMaker(round, " ") // ["Game", #]
+func gameNumber(str string) int {
+	selectNum := utils.SliceMaker(str, " ")[1]
 
-	roundInt, err := strconv.Atoi(sep[1])
+	num, err := strconv.Atoi(selectNum)
 	if err != nil {
-		return 0
+		fmt.Println("error converting game number: ", err)
+		return -1
 	}
 
-	return roundInt
+	return num
 }
 
 func roundsHandler(round string) []string {
-	parts := sliceMaker(round, ";") // separate pulls
+	parts := utils.SliceMaker(round, ";") // separate pulls
 	return parts
 }
 
@@ -94,7 +97,7 @@ func buildRounds(rounds []string) []MAP {
 	var result []MAP
 
 	for _, round := range rounds {
-		hands := sliceMaker(round, ",")
+		hands := utils.SliceMaker(round, ",")
 
 		handMap := buildHands(hands)
 		result = append(result, handMap)
@@ -107,7 +110,7 @@ func buildHands(hands []string) MAP {
 	result := make(MAP)
 
 	for _, hand := range hands {
-		parts := sliceMaker(hand, " ")
+		parts := utils.SliceMaker(hand, " ")
 		count, err := strconv.Atoi(parts[0])
 		if err != nil {
 			fmt.Println("error parsing count: ", err)
@@ -147,14 +150,4 @@ func validateValues(vals []MAP, validData MAP) (bool, int) {
 	power = minimums["red"] * minimums["green"] * minimums["blue"]
 
 	return valideGame, power
-}
-
-func sliceMaker(str string, seperator string) []string {
-	slice := strings.Split(str, seperator)
-
-	for i := 0; i < len(slice); i++ {
-		slice[i] = strings.Trim(slice[i], " ") // remove leading space
-	}
-
-	return slice
 }
